@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Usuario extends Persona {
     private TipoUsuario tipoUsuario;
-    private Membresia membresiaAsignada;
+    private Membresia membresia;
     private ArrayList<Reserva> reservas=new ArrayList();
 
     public Usuario() {}
@@ -12,8 +12,8 @@ public class Usuario extends Persona {
     public TipoUsuario getTipoUsuario() { return tipoUsuario; }
     public void setTipoUsuario(TipoUsuario tipoUsuario) { this.tipoUsuario = tipoUsuario; }
 
-    public Membresia getMembresiaAsignada() { return membresiaAsignada; }
-    public void setMembresiaAsignada(Membresia membresiaAsignada) { this.membresiaAsignada = membresiaAsignada; }
+    public Membresia getMembresia() { return membresia; }
+    public void setMembresia(Membresia membresia) { this.membresia = membresia; }
 
     public ArrayList getReservas() {
         return reservas;
@@ -35,7 +35,7 @@ public class Usuario extends Persona {
                 "nombre='" + getNombre() + '\'' +
                 ", identificacion='" + getIdentificacion() + '\'' +
                 ", tipoUsuario=" + tipoUsuario +
-                ", membresia=" + (membresiaAsignada != null ? membresiaAsignada.getTipo() : "null") +
+                ", membresia=" + (membresia != null ? membresia.getTipo() : "null") +
                 '}';
     }
 }
