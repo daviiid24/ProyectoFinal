@@ -1,6 +1,9 @@
 package co.edu.uniquindio.proyecto.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import static co.edu.uniquindio.proyecto.Main.obtenerUsuario;
 
 public class Gimnasio {
     private String nombre;
@@ -92,7 +95,7 @@ public class Gimnasio {
                 '}';
     }
 
-    public boolean crearUsuario(String nombre, String identificacion, int edad, String telefono, TipoUsuario tipoUsuario, TipoMembresia tipoMembresia) {
+    public boolean crearUsuario(String nombre, String identificacion, int edad, String telefono, TipoUsuario tipoUsuario) {
         Usuario usuarioEncontrado = obtenerUsuario(identificacion);
         if(usuarioEncontrado == null) {
             Usuario usuario = new Usuario();
@@ -101,9 +104,6 @@ public class Gimnasio {
             usuario.setEdad(edad);
             usuario.setTelefono(telefono);
             usuario.setTipoUsuario(tipoUsuario);
-            Membresia membresia=new Membresia();
-            membresia.setTipo(tipoMembresia);
-            usuario.setMembresia(membresia);
             getListaUsuarios().add(usuario);
 
             return true;
@@ -111,6 +111,39 @@ public class Gimnasio {
             return false;
         }
     }
+
+    public boolean crearMembresia(String id, TipoMembresia tipo, Duracion duracion, double costo) {
+        Usuario usuarioEncontrado = obtenerUsuario(id);
+        if (usuarioEncontrado == null) {
+            System.out.println("No se encontró un usuario con esa identificación.");
+            return false;
+        }
+
+        Membresia membresia;
+        switch (tipo) {
+            case BASICA -> membresia = new MembresiaBasica();
+            case PREMIUM -> membresia = new MembresiaPremium();
+            case VIP -> membresia = new MembresiaVip();
+            default -> membresia = new MembresiaBasica();
+        }
+        membresia.setTipo(tipo);
+        membresia.setCosto(costo);
+        membresia.setEstado(EstadoMembresia.ACTIVA);
+        membresia.setFechaInicio(LocalDate.now());
+        LocalDate fechaVencimiento;
+        switch (duracion) {
+            case MENSUAL -> fechaVencimiento = LocalDate.now().plusMonths(1);
+            case TRIMESTRAL -> fechaVencimiento = LocalDate.now().plusMonths(3);
+            case ANUAL -> fechaVencimiento = LocalDate.now().plusYears(1);
+            default -> fechaVencimiento = LocalDate.now().plusMonths(1);
+        }
+        membresia.setFechaVencimiento(fechaVencimiento);
+        usuarioEncontrado.setMembresia(membresia);
+
+        return true;
+
+    }
+
     public Usuario obtenerUsuario(String identificacion) {
         Usuario usuarioEncontrado =  null;
         for (Usuario usuario : getListaUsuarios()) {

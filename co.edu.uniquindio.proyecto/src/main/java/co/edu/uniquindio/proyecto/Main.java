@@ -34,23 +34,12 @@ public class Main {
                 System.out.println("Opción no válida, se asignará EXTERNO por defecto.");
                 tipoUsuario = TipoUsuario.EXTERNO;
         }
-        System.out.println("Seleccione el tipo de membresía:");
-        System.out.println("1. MENSUAL");
-        System.out.println("2. TRIMESTRAL");
-        System.out.println("3. ANUAL");
-        int opcionMembresia = leerEntero("Seleccione una opcion: ");
-        TipoMembresia tipoMembresia = switch (opcionMembresia) {
-            case 1 -> TipoMembresia.MENSUAL;
-            case 2 -> TipoMembresia.TRIMESTRAL;
-            case 3 -> TipoMembresia.ANUAL;
-            default -> TipoMembresia.MENSUAL;
-        };
+
         boolean resultado = gimnasio.crearUsuario(nombre,
                 identificacion,
                 edad,
                 telefono,
-                tipoUsuario,
-                tipoMembresia);
+                tipoUsuario);
 
         if (resultado) {
             System.out.println("Usuario creado con exito");
@@ -62,7 +51,51 @@ public class Main {
 
 
     }
+    public static void asignarMembresia(Gimnasio gimnasio) {
+        String id=leerStringConsola("Ingrese la identificacion del usuario a asignar: ");
+        System.out.println("Seleccione el tipo de membresía:");
+        System.out.println("1. Basica");
+        System.out.println("2. Premium");
+        System.out.println("3. VIP");
+        int opcionMembresia = leerEntero("Seleccione una opcion: ");
+        TipoMembresia tipoMembresia = switch (opcionMembresia) {
+            case 1 -> TipoMembresia.BASICA;
+            case 2 -> TipoMembresia.PREMIUM;
+            case 3 -> TipoMembresia.VIP;
+            default -> TipoMembresia.BASICA;
+        };
 
+        System.out.println("Seleccione la duracion:");
+        System.out.println("1. MENSUAL");
+        System.out.println("2. TRIMESTRAL");
+        System.out.println("3. ANUAL");
+        int opcionDuracion = leerEntero("Seleccione una opcion: ");
+        Duracion duracion = switch (opcionDuracion) {
+            case 1 -> Duracion.MENSUAL;
+            case 2 -> Duracion.TRIMESTRAL;
+            case 3 -> Duracion.ANUAL;
+            default -> Duracion.MENSUAL;
+        };
+        double costo=leerDoubleConsola("Ingrese el costo de la membresia: ");
+        boolean resultado = gimnasio.crearMembresia(id, tipoMembresia, duracion, costo);
+
+        if (resultado) {
+            System.out.println("Membresia creada y asignada con exito");
+        } else {
+            System.out.println("Membresia no creado");
+        }
+    }
+
+
+    public static void obtenerUsuario(Gimnasio gimnasio) {
+        String idBuscar = leerStringConsola("Ingrese el id del usuario a buscar:");
+        Usuario resultado = gimnasio.obtenerUsuario(idBuscar);
+        if (resultado != null) {
+            System.out.println("Usuario encontrado con exito");
+        } else {
+            System.out.println("Usuario no encontrado");
+        }
+    }
 
 
 
