@@ -180,6 +180,61 @@ public class Gimnasio {
         return usuarioEncontrado;
     }
 
+    //CRUD ENTRENADOR
+    public boolean crearEntrenador(String nombre, String identificacion, int edad,
+                                String telefono) {
+        Entrenador entrenadorEncontrado = obtenerEntrenador(identificacion);
+        if (entrenadorEncontrado == null) {
+            Entrenador entrenador = new Entrenador();
+            entrenador.setNombre(nombre);
+            entrenador.setIdentificacion(identificacion);
+            entrenador.setEdad(edad);
+            entrenador.setTelefono(telefono);
+            getListaEntrenadores().add(entrenador);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean eliminarEntrenador(String idEliminar) {
+        Entrenador entrenadorEncontrado = obtenerEntrenador(idEliminar);
+        if (entrenadorEncontrado != null) {
+            getListaEntrenadores().remove(entrenadorEncontrado);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean actualizarEntrenador(String nombre, String identificacion, int edad,
+                                     String telefono) {
+        Entrenador entrenadorEncontrado = obtenerEntrenador(identificacion);
+        if (entrenadorEncontrado.getIdentificacion().equalsIgnoreCase(identificacion)) {
+            entrenadorEncontrado.setNombre(nombre);
+            entrenadorEncontrado.setIdentificacion(identificacion);
+            entrenadorEncontrado.setEdad(edad);
+            entrenadorEncontrado.setTelefono(telefono);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Entrenador obtenerEntrenador(String identificacion) {
+        Entrenador entrenadorEncontrado = null;
+        for (Entrenador entrenador : getListaEntrenadores()) {
+            if (entrenador.getIdentificacion().equalsIgnoreCase(identificacion)) {
+                entrenadorEncontrado = entrenador;
+                break;
+            }
+        }
+
+        return entrenadorEncontrado;
+    }
+
 
     public boolean crearMembresia(String id, TipoMembresia tipo, Duracion duracion, double costo) {
         Usuario usuarioEncontrado = obtenerUsuario(id);
