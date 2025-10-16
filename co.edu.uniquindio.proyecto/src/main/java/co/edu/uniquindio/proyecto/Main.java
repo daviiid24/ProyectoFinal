@@ -68,7 +68,7 @@ public class Main {
         }
     }
 
-    private static void actualizarUsuario(Gimnasio Gimnasio) {
+    private static void actualizarUsuario(Gimnasio gimnasio) {
         String nombre = leerStringConsola("Ingrese el nombre del usuario: ");
         String identificacion = leerStringConsola("Ingrese la identificacion del usuario: ");
         int edad = leerEntero("Ingrese la edad del usuario: ");
@@ -180,7 +180,7 @@ public class Main {
         }
     }
 
-    private static void actualizarUsuario(Gimnasio Gimnasio) {
+    private static void actualizarUsuario(Gimnasio gimnasio) {
         String nombre = leerStringConsola("Ingrese el nombre del entrenador: ");
         String identificacion = leerStringConsola("Ingrese la identificacion del entrenador: ");
         int edad = leerEntero("Ingrese la edad del entrenador: ");
@@ -245,7 +245,7 @@ public class Main {
         }
     }
 
-    private static void actualizarClase(Gimnasio Gimnasio) {
+    private static void actualizarClase(Gimnasio gimnasio) {
         String nombre = leerStringConsola("Ingrese el nombre de la clase: ");
         int cupoMaximo = leerEntero("Ingrese el cupo maximo de la clase: ");
         String identificacion=leerStringConsola("Ingrese el id del entrenador a asignar a la clase: ");
