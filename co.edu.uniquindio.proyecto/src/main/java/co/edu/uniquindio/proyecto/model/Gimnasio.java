@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Gimnasio {
@@ -234,6 +235,84 @@ public class Gimnasio {
 
         return entrenadorEncontrado;
     }
+
+    //CRUD CLASE
+    public boolean agregarClase(String nombre,
+                                 int cupoMaximo,
+                                String identificacion,
+                                TipoClase tipoClase) {
+        Clase claseEncontrada = obtenerClase(nombre);
+        if (claseEncontrada == null) {
+            Clase clase = new Clase();
+            clase.setNombre(nombre);
+            clase.setCupoMaximo(cupoMaximo);
+            clase.setHorario(LocalTime.of(int hour));
+            clase.setTipoClase(tipoClase);
+            Entrenador entrenadorEncontrado=obtenerEntrenador(identificacion);
+            clase.setEntrenador(entrenadorEncontrado);
+            getListaClases().add(clase);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean eliminarClase(String nombre) {
+        Clase claseEncontrada = obtenerClase(nombre);
+        if (claseEncontrada != null) {
+            getListaClases().remove(claseEncontrada);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean actualizarClase(String nombre,
+                                   int cupoMaximo,
+                                   String identificacion,
+                                   TipoClase tipoClase) {
+        Clase claseEncontrada = obtenerClase(nombre);
+        if (claseEncontrada.getNombre().equalsIgnoreCase(nombre)) {
+            claseEncontrada.setNombre(nombre);
+            claseEncontrada.setCupoMaximo(cupoMaximo);
+            claseEncontrada.setHorario(LocalTime.of(int hour));
+            claseEncontrada.setTipoClase(tipoClase);
+            Entrenador entrenadorEncontrado=obtenerEntrenador(identificacion);
+            claseEncontrada.setEntrenador(entrenadorEncontrado);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Clase obtenerClase(String clase) {
+        Clase claseEncontrada = null;
+        for (Clase clase : getListaClases()) {
+            if (clase.getNombre().equalsIgnoreCase(nombre)) {
+                claseEncontrada = clase;
+                break;
+            }
+        }
+
+        return claseEncontrada;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public boolean crearMembresia(String id, TipoMembresia tipo, Duracion duracion, double costo) {

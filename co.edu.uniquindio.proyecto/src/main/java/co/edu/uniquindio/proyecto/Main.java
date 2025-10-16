@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto;
 
 import co.edu.uniquindio.proyecto.model.*;
 
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Main {
@@ -202,6 +203,84 @@ public class Main {
             System.out.println("Entrenador encontrado con exito");
         } else {
             System.out.println("Entrenador no encontrado");
+        }
+    }
+    //CRUD CLASE
+    private static void agregarClase(Gimnasio gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre de la clase: ");
+        int cupoMaximo = leerEntero("Ingrese el cupo maximo de la clase: ");
+        String identificacion=leerStringConsola("Ingrese el id del entrenador a asignar a la clase: ");
+        System.out.println("Seleccione el tipo de clase:");
+        System.out.println("1. YOGA \n 2. SPINNING \n " +
+                "3. ZUMBA \n 4. CROSSFIT \n 5. PILATES");
+        int opcionClase = leerEntero("Seleccione una opcion: ");
+        TipoClase tipoClase = switch (opcionClase) {
+            case 1 -> TipoClase.YOGA;
+            case 2 -> TipoClase.SPINNING;
+            case 3 -> TipoClase.ZUMBA;
+            case 4 -> TipoClase.CROSSFIT;
+            case 5 -> TipoClase.PILATES;
+            default -> TipoClase.YOGA;
+        };
+
+
+        boolean resultado = gimnasio.agregarClase(nombre,
+                cupoMaximo, identificacion,
+                tipoClase);
+
+        if (resultado) {
+            System.out.println("Clase creado con exito");
+        } else {
+            System.out.println("Clase no creado");
+        }
+    }
+
+    private static void eliminarClase(Gimnasio gimnasio) {
+        String idEliminar = leerStringConsola("Ingrese el nombre de la clase a eliminar:");
+        boolean resultado = gimnasio.eliminarClase(idEliminar);
+        if (resultado) {
+            System.out.println("Clase eliminado con exito");
+        } else {
+            System.out.println("Clase no eliminado");
+        }
+    }
+
+    private static void actualizarClase(Gimnasio Gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre de la clase: ");
+        int cupoMaximo = leerEntero("Ingrese el cupo maximo de la clase: ");
+        String identificacion=leerStringConsola("Ingrese el id del entrenador a asignar a la clase: ");
+        System.out.println("Seleccione el tipo de clase:");
+        System.out.println("1. YOGA \n 2. SPINNING \n " +
+                "3. ZUMBA \n 4. CROSSFIT \n 5. PILATES");
+        int opcionClase = leerEntero("Seleccione una opcion: ");
+        TipoClase tipoClase = switch (opcionClase) {
+            case 1 -> TipoClase.YOGA;
+            case 2 -> TipoClase.SPINNING;
+            case 3 -> TipoClase.ZUMBA;
+            case 4 -> TipoClase.CROSSFIT;
+            case 5 -> TipoClase.PILATES;
+            default -> TipoClase.YOGA;
+        };
+
+
+        boolean resultado = gimnasio.actualizarClase(nombre,
+                cupoMaximo, identificacion,
+                tipoClase);
+
+        if (resultado) {
+            System.out.println("Clase actualizado con exito");
+        } else {
+            System.out.println("Clase no actualizado");
+        }
+    }
+
+    public static void obtenerClase(Gimnasio gimnasio) {
+        String idBuscar = leerStringConsola("Ingrese el nombre de la clase a buscar:");
+        Clase resultado = gimnasio.obtenerClase(idBuscar);
+        if (resultado != null) {
+            System.out.println("Clase encontrado con exito");
+        } else {
+            System.out.println("Clase no encontrado");
         }
     }
 
