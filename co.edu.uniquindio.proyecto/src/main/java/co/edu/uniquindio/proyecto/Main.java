@@ -180,7 +180,7 @@ public class Main {
         }
     }
 
-    private static void actualizarUsuario(Gimnasio gimnasio) {
+    private static void actualizarEntrenador(Gimnasio gimnasio) {
         String nombre = leerStringConsola("Ingrese el nombre del entrenador: ");
         String identificacion = leerStringConsola("Ingrese la identificacion del entrenador: ");
         int edad = leerEntero("Ingrese la edad del entrenador: ");
@@ -283,7 +283,62 @@ public class Main {
             System.out.println("Clase no encontrado");
         }
     }
+    //CRUD MEMBRESIA
+    private static void crearMembresia(Gimnasio gimnasio) {
+        double costo = leerDoubleConsola("Ingrese el costo de la membresia: ");
 
+        String identificacion = leerStringConsola("Ingrese la identificacion del entrenador: ");
+        int edad = leerEntero("Ingrese la edad del entrenador: ");
+        String telefono = leerStringConsola("Ingrese la telefono del entrenador: ");
+
+
+        boolean resultado = gimnasio.crearEntrenador(nombre,
+                identificacion,
+                edad,
+                telefono);
+
+        if (resultado) {
+            System.out.println("Entrenador creado con exito");
+        } else {
+            System.out.println("Entrenador no creado");
+        }
+    }
+
+    private static void eliminarMembresia(Gimnasio gimnasio) {
+        String idEliminar = leerStringConsola("Ingrese el id del entrenador a eliminar:");
+        boolean resultado = gimnasio.eliminarEntrenador(idEliminar);
+        if (resultado) {
+            System.out.println("Entrenador eliminado con exito");
+        } else {
+            System.out.println("Entrenador no eliminado");
+        }
+    }
+
+    private static void actualizarMembresia(Gimnasio gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre del entrenador: ");
+        String identificacion = leerStringConsola("Ingrese la identificacion del entrenador: ");
+        int edad = leerEntero("Ingrese la edad del entrenador: ");
+        String telefono = leerStringConsola("Ingrese la telefono del entrenador: ");
+
+        boolean resultado = gimnasio.actualizarEntrenador(nombre, identificacion,
+                edad, telefono);
+
+        if (resultado) {
+            System.out.println("Entrenador actualizado con exito");
+        } else {
+            System.out.println("Entrenador no actualizado");
+        }
+    }
+
+    public static void obtenerMembresia(Gimnasio gimnasio) {
+        String idBuscar = leerStringConsola("Ingrese el id del entrenador a buscar:");
+        Entrenador resultado = gimnasio.obtenerEntrenador(idBuscar);
+        if (resultado != null) {
+            System.out.println("Entrenador encontrado con exito");
+        } else {
+            System.out.println("Entrenador no encontrado");
+        }
+    }
 
 
 
