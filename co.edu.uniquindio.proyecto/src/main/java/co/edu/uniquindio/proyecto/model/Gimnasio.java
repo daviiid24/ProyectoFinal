@@ -3,13 +3,14 @@ package co.edu.uniquindio.proyecto.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static co.edu.uniquindio.proyecto.Main.obtenerUsuario;
-
 public class Gimnasio {
     private String nombre;
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+    private ArrayList<Membresia> listaMembresias = new ArrayList<>();
+    private ArrayList<Reserva> listaReservas = new ArrayList<>();
     private ArrayList<Entrenador> listaEntrenadores = new ArrayList<>();
     private ArrayList<Clase> listaClases = new ArrayList<>();
+    private ArrayList<Reporte> listaReportes = new ArrayList<>();
     private Administrador administrador;
     private Recepcionista recepcionista;
 
@@ -63,6 +64,31 @@ public class Gimnasio {
     public void setRecepcionista(Recepcionista recepcionista) {
         this.recepcionista = recepcionista;
     }
+
+    public ArrayList<Membresia> getListaMembresias() {
+        return listaMembresias;
+    }
+
+    public void setListaMembresias(ArrayList<Membresia> listaMembresias) {
+        this.listaMembresias = listaMembresias;
+    }
+
+    public ArrayList<Reserva> getListaReservas() {
+        return listaReservas;
+    }
+
+    public void setListaReservas(ArrayList<Reserva> listaReservas) {
+        this.listaReservas = listaReservas;
+    }
+
+    public ArrayList<Reporte> getListaReportes() {
+        return listaReportes;
+    }
+
+    public void setListaReportes(ArrayList<Reporte> listaReportes) {
+        this.listaReportes = listaReportes;
+    }
+
     /*
     public void addUsuario(Usuario usuario) {
         if (this.usuarios == null) {
@@ -88,16 +114,20 @@ public class Gimnasio {
         return "Gimnasio{" +
                 "nombre='" + nombre + '\'' +
                 ", listaUsuarios=" + listaUsuarios +
+                ", listaMembresias=" + listaMembresias +
+                ", listaReservas=" + listaReservas +
                 ", listaEntrenadores=" + listaEntrenadores +
                 ", listaClases=" + listaClases +
+                ", listaReportes=" + listaReportes +
                 ", administrador=" + administrador +
                 ", recepcionista=" + recepcionista +
                 '}';
     }
 
-    public boolean crearUsuario(String nombre, String identificacion, int edad, String telefono, TipoUsuario tipoUsuario) {
+    public boolean crearUsuario(String nombre, String identificacion, int edad,
+                                String telefono, TipoUsuario tipoUsuario) {
         Usuario usuarioEncontrado = obtenerUsuario(identificacion);
-        if(usuarioEncontrado == null) {
+        if (usuarioEncontrado == null) {
             Usuario usuario = new Usuario();
             usuario.setNombre(nombre);
             usuario.setIdentificacion(identificacion);
@@ -107,10 +137,49 @@ public class Gimnasio {
             getListaUsuarios().add(usuario);
 
             return true;
-        }else{
+        } else {
             return false;
         }
     }
+
+    public boolean eliminarUsuario(String idEliminar) {
+        Usuario usuarioEncontrado = obtenerUsuario(idEliminar);
+        if (usuarioEncontrado != null) {
+            getListaUsuarios().remove(usuarioEncontrado);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean actualizarUsuario(String nombre, String identificacion, int edad,
+                                     String telefono, TipoUsuario tipoUsuario) {
+        Usuario usuarioEncontrado = obtenerUsuario(identificacion);
+        if (usuarioEncontrado.getIdentificacion().equalsIgnoreCase(identificacion)) {
+            usuarioEncontrado.setNombre(nombre);
+            usuarioEncontrado.setIdentificacion(identificacion);
+            usuarioEncontrado.setEdad(edad);
+            usuarioEncontrado.setTelefono(telefono);
+            usuarioEncontrado.setTipoUsuario(tipoUsuario);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Usuario obtenerUsuario(String identificacion) {
+        Usuario usuarioEncontrado = null;
+        for (Usuario usuario : getListaUsuarios()) {
+            if (usuario.getIdentificacion().equalsIgnoreCase(identificacion)) {
+                usuarioEncontrado = usuario;
+                break;
+            }
+        }
+
+        return usuarioEncontrado;
+    }
+
 
     public boolean crearMembresia(String id, TipoMembresia tipo, Duracion duracion, double costo) {
         Usuario usuarioEncontrado = obtenerUsuario(id);
@@ -128,7 +197,7 @@ public class Gimnasio {
         }
         membresia.setTipo(tipo);
         membresia.setCosto(costo);
-        membresia.setEstado(EstadoMembresia.ACTIVA);
+        membresia.setEstado(Estado.ACTIVA);
         membresia.setFechaInicio(LocalDate.now());
         LocalDate fechaVencimiento;
         switch (duracion) {
@@ -144,17 +213,7 @@ public class Gimnasio {
 
     }
 
-    public Usuario obtenerUsuario(String identificacion) {
-        Usuario usuarioEncontrado =  null;
-        for (Usuario usuario : getListaUsuarios()) {
-            if(usuario.getIdentificacion().equalsIgnoreCase(identificacion)) {
-                usuarioEncontrado = usuario;
-                break;
-            }
-        }
 
-        return usuarioEncontrado;
-    }
 }
 
 

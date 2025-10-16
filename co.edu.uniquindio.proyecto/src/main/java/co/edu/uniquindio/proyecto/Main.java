@@ -7,12 +7,21 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Gimnasio gimnasio = inicializarDatos();
+        agregarUsuario(gimnasio);
+        eliminarUsuario(gimnasio);
+        actualizarUsuario(gimnasio);
+        obtenerUsuario(gimnasio);
+
+        asignarMembresia(gimnasio);
+
     }
-    private static void agregarUsuario(Gimnasio gimnasio){
-        String nombre=leerStringConsola("Ingrese el nombre del usuario: ");
-        String identificacion=leerStringConsola("Ingrese la identificacion del usuario: ");
-        int edad=leerEntero("Ingrese la edad del usuario: ");
-        String telefono=leerStringConsola("Ingrese la telefono del usuario: ");
+
+    //CRUD USUARIO
+    private static void agregarUsuario(Gimnasio gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre del usuario: ");
+        String identificacion = leerStringConsola("Ingrese la identificacion del usuario: ");
+        int edad = leerEntero("Ingrese la edad del usuario: ");
+        String telefono = leerStringConsola("Ingrese la telefono del usuario: ");
         System.out.println("Seleccione el tipo de usuario:");
         System.out.println("1. ESTUDIANTE");
         System.out.println("2. TRABAJADOR_UQ");
@@ -46,13 +55,68 @@ public class Main {
         } else {
             System.out.println("Usuario no creado");
         }
-
-
-
-
     }
+
+    private static void eliminarUsuario(Gimnasio gimnasio) {
+        String idEliminar = leerStringConsola("Ingrese el id del usuario a eliminar:");
+        boolean resultado = gimnasio.eliminarUsuario(idEliminar);
+        if (resultado) {
+            System.out.println("Usuario eliminado con exito");
+        } else {
+            System.out.println("Usuario no eliminado");
+        }
+    }
+
+    private static void actualizarUsuario(Gimnasio Gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre del usuario: ");
+        String identificacion = leerStringConsola("Ingrese la identificacion del usuario: ");
+        int edad = leerEntero("Ingrese la edad del usuario: ");
+        String telefono = leerStringConsola("Ingrese la telefono del usuario: ");
+        System.out.println("Seleccione el tipo de usuario:");
+        System.out.println("1. ESTUDIANTE");
+        System.out.println("2. TRABAJADOR_UQ");
+        System.out.println("3. EXTERNO");
+        int opcion = leerEntero("Seleccione una opción: ");
+        TipoUsuario tipoUsuario;
+
+        switch (opcion) {
+            case 1:
+                tipoUsuario = TipoUsuario.ESTUDIANTE;
+                break;
+            case 2:
+                tipoUsuario = TipoUsuario.TRABAJADOR_UQ;
+                break;
+            case 3:
+                tipoUsuario = TipoUsuario.EXTERNO;
+                break;
+            default:
+                System.out.println("Opción no válida, se asignará EXTERNO por defecto.");
+                tipoUsuario = TipoUsuario.EXTERNO;
+        }
+
+
+        boolean resultado = gimnasio.actualizarUsuario(nombre, identificacion, edad, telefono,
+                tipoUsuario);
+
+        if (resultado) {
+            System.out.println("Usuario actualizado con exito");
+        } else {
+            System.out.println("Usuario no actualizado");
+        }
+    }
+
+    public static void obtenerUsuario(Gimnasio gimnasio) {
+        String idBuscar = leerStringConsola("Ingrese el id del usuario a buscar:");
+        Usuario resultado = gimnasio.obtenerUsuario(idBuscar);
+        if (resultado != null) {
+            System.out.println("Usuario encontrado con exito");
+        } else {
+            System.out.println("Usuario no encontrado");
+        }
+    }
+
     public static void asignarMembresia(Gimnasio gimnasio) {
-        String id=leerStringConsola("Ingrese la identificacion del usuario a asignar: ");
+        String id = leerStringConsola("Ingrese la identificacion del usuario a asignar: ");
         System.out.println("Seleccione el tipo de membresía:");
         System.out.println("1. Basica");
         System.out.println("2. Premium");
@@ -76,7 +140,7 @@ public class Main {
             case 3 -> Duracion.ANUAL;
             default -> Duracion.MENSUAL;
         };
-        double costo=leerDoubleConsola("Ingrese el costo de la membresia: ");
+        double costo = leerDoubleConsola("Ingrese el costo de la membresia: ");
         boolean resultado = gimnasio.crearMembresia(id, tipoMembresia, duracion, costo);
 
         if (resultado) {
@@ -85,7 +149,94 @@ public class Main {
             System.out.println("Membresia no creado");
         }
     }
+    //CRUD ENTRENADOR
+    private static void agregarEntrenador(Gimnasio gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre del usuario: ");
+        String identificacion = leerStringConsola("Ingrese la identificacion del usuario: ");
+        int edad = leerEntero("Ingrese la edad del usuario: ");
+        String telefono = leerStringConsola("Ingrese la telefono del usuario: ");
+        System.out.println("Seleccione el tipo de usuario:");
+        System.out.println("1. ESTUDIANTE");
+        System.out.println("2. TRABAJADOR_UQ");
+        System.out.println("3. EXTERNO");
+        int opcion = leerEntero("Seleccione una opción: ");
+        TipoUsuario tipoUsuario;
 
+        switch (opcion) {
+            case 1:
+                tipoUsuario = TipoUsuario.ESTUDIANTE;
+                break;
+            case 2:
+                tipoUsuario = TipoUsuario.TRABAJADOR_UQ;
+                break;
+            case 3:
+                tipoUsuario = TipoUsuario.EXTERNO;
+                break;
+            default:
+                System.out.println("Opción no válida, se asignará EXTERNO por defecto.");
+                tipoUsuario = TipoUsuario.EXTERNO;
+        }
+
+        boolean resultado = gimnasio.crearUsuario(nombre,
+                identificacion,
+                edad,
+                telefono,
+                tipoUsuario);
+
+        if (resultado) {
+            System.out.println("Usuario creado con exito");
+        } else {
+            System.out.println("Usuario no creado");
+        }
+    }
+
+    private static void eliminarUsuario(Gimnasio gimnasio) {
+        String idEliminar = leerStringConsola("Ingrese el id del usuario a eliminar:");
+        boolean resultado = gimnasio.eliminarUsuario(idEliminar);
+        if (resultado) {
+            System.out.println("Usuario eliminado con exito");
+        } else {
+            System.out.println("Usuario no eliminado");
+        }
+    }
+
+    private static void actualizarUsuario(Gimnasio Gimnasio) {
+        String nombre = leerStringConsola("Ingrese el nombre del usuario: ");
+        String identificacion = leerStringConsola("Ingrese la identificacion del usuario: ");
+        int edad = leerEntero("Ingrese la edad del usuario: ");
+        String telefono = leerStringConsola("Ingrese la telefono del usuario: ");
+        System.out.println("Seleccione el tipo de usuario:");
+        System.out.println("1. ESTUDIANTE");
+        System.out.println("2. TRABAJADOR_UQ");
+        System.out.println("3. EXTERNO");
+        int opcion = leerEntero("Seleccione una opción: ");
+        TipoUsuario tipoUsuario;
+
+        switch (opcion) {
+            case 1:
+                tipoUsuario = TipoUsuario.ESTUDIANTE;
+                break;
+            case 2:
+                tipoUsuario = TipoUsuario.TRABAJADOR_UQ;
+                break;
+            case 3:
+                tipoUsuario = TipoUsuario.EXTERNO;
+                break;
+            default:
+                System.out.println("Opción no válida, se asignará EXTERNO por defecto.");
+                tipoUsuario = TipoUsuario.EXTERNO;
+        }
+
+
+        boolean resultado = gimnasio.actualizarUsuario(nombre, identificacion, edad, telefono,
+                tipoUsuario);
+
+        if (resultado) {
+            System.out.println("Usuario actualizado con exito");
+        } else {
+            System.out.println("Usuario no actualizado");
+        }
+    }
 
     public static void obtenerUsuario(Gimnasio gimnasio) {
         String idBuscar = leerStringConsola("Ingrese el id del usuario a buscar:");
@@ -100,10 +251,8 @@ public class Main {
 
 
 
-
     private static Gimnasio inicializarDatos() {
-         Gimnasio gimnasio = new Gimnasio();
-        agregarUsuario(gimnasio);
+        Gimnasio gimnasio = new Gimnasio();
         return gimnasio;
     }
 

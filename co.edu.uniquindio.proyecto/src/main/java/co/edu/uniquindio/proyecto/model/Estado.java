@@ -1,5 +1,5 @@
 package co.edu.uniquindio.proyecto.model;
 
-public enum EstadoMembresia {
+public enum Estado {
     ACTIVA, INACTIVA
 }

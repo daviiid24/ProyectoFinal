@@ -6,6 +6,7 @@ public class Usuario extends Persona {
     private TipoUsuario tipoUsuario;
     private Membresia membresia;
     private ArrayList<Reserva> reservas=new ArrayList();
+    private Gimnasio ownedByGimnasio;
 
     public Usuario() {}
 
@@ -23,19 +24,25 @@ public class Usuario extends Persona {
         this.reservas = reservas;
     }
 
-    public void addReserva(Reserva reserva) {
-        if (this.reservas == null) {
-            this.reservas.add(reserva);
-        }
+    public void setReservas(ArrayList<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public Gimnasio getOwnedByGimnasio() {
+        return ownedByGimnasio;
+    }
+
+    public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
+        this.ownedByGimnasio = ownedByGimnasio;
     }
 
     @Override
     public String toString() {
         return "Usuario{" +
-                "nombre='" + getNombre() + '\'' +
-                ", identificacion='" + getIdentificacion() + '\'' +
-                ", tipoUsuario=" + tipoUsuario +
-                ", membresia=" + (membresia != null ? membresia.getTipo() : "null") +
+                "tipoUsuario=" + tipoUsuario +
+                ", membresia=" + membresia +
+                ", reservas=" + reservas +
+                ", ownedByGimnasio=" + ownedByGimnasio +
                 '}';
     }
 }

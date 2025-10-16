@@ -2,6 +2,8 @@ package co.edu.uniquindio.proyecto.model;
 
 public class Administrador {
     private String nombre;
+    private Gimnasio ownedByGimnasio;
+
     public Administrador() {}
 
     public String getNombre() {
@@ -12,23 +14,19 @@ public class Administrador {
         this.nombre = nombre;
     }
 
-    public void registrarEntrenador(Gimnasio gimnasio, Entrenador entrenador) {
-        gimnasio.agregarEntrenador(entrenador);
-        System.out.println("Entrenador registrado correctamente: " + entrenador.getNombre());
+    public Gimnasio getOwnedByGimnasio() {
+        return ownedByGimnasio;
     }
 
-    public void eliminarEntrenador(Gimnasio gimnasio, String idEntrenador) {
-        gimnasio.eliminarEntrenador(idEntrenador);
-    }
-
-    public void generarReporteAvanzado(Gimnasio gimnasio) {
-        gimnasio.generarReporteAvanzado();
+    public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
+        this.ownedByGimnasio = ownedByGimnasio;
     }
 
     @Override
     public String toString() {
         return "Administrador{" +
                 "nombre='" + nombre + '\'' +
+                ", ownedByGimnasio=" + ownedByGimnasio +
                 '}';
     }
 }

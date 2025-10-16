@@ -8,7 +8,8 @@ public class Membresia {
     private double costo;
     private LocalDate fechaInicio;
     private LocalDate fechaVencimiento;
-    private EstadoMembresia estado;
+    private Estado estado;
+    private Gimnasio ownedByGimnasio;
 
     public Membresia(TipoMembresia tipo,Duracion duracion, double costo) {
         this.tipo = tipo;
@@ -58,12 +59,20 @@ public class Membresia {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    public EstadoMembresia getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoMembresia estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Gimnasio getOwnedByGimnasio() {
+        return ownedByGimnasio;
+    }
+
+    public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
+        this.ownedByGimnasio = ownedByGimnasio;
     }
 
     @Override

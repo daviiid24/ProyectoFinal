@@ -10,6 +10,7 @@ public class Clase {
         private int cupoMaximo;
         private Entrenador entrenador;
         private ArrayList<Usuario> usuariosRegistrados=new ArrayList();
+    private Gimnasio ownedByGimnasio;
 
         public Clase() {
         }
@@ -61,6 +62,15 @@ public class Clase {
     public void setUsuariosRegistrados(ArrayList<Usuario> usuariosRegistrados) {
         this.usuariosRegistrados = usuariosRegistrados;
     }
+
+    public Gimnasio getOwnedByGimnasio() {
+        return ownedByGimnasio;
+    }
+
+    public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
+        this.ownedByGimnasio = ownedByGimnasio;
+    }
+
     public void addUsuario(Usuario usuario) {
         if (this.usuariosRegistrados == null) {
             this.usuariosRegistrados.add(usuario);

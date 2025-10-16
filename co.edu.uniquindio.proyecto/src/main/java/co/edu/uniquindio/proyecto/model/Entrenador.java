@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Entrenador extends Persona {
     private ArrayList<Clase> claseAsignadas =new ArrayList();
+    private Gimnasio ownedByGimnasio;
 
     public Entrenador() {
     }
@@ -16,10 +17,20 @@ public class Entrenador extends Persona {
         this.claseAsignadas = claseAsignadas;
     }
 
-    public void addClase(Clase clase) {
-        if (this.claseAsignadas == null) {
-            this.claseAsignadas.add(clase);
-        }
+    public ArrayList<Clase> getClaseAsignadas() {
+        return claseAsignadas;
+    }
+
+    public void setClaseAsignadas(ArrayList<Clase> claseAsignadas) {
+        this.claseAsignadas = claseAsignadas;
+    }
+
+    public Gimnasio getOwnedByGimnasio() {
+        return ownedByGimnasio;
+    }
+
+    public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
+        this.ownedByGimnasio = ownedByGimnasio;
     }
 
     @Override

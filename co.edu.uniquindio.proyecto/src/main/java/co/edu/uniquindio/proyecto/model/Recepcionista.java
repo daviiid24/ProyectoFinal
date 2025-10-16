@@ -2,6 +2,8 @@ package co.edu.uniquindio.proyecto.model;
 
 public class Recepcionista {
     private String nombre;
+    private Gimnasio ownedByGimnasio;
+
     public Recepcionista() {}
 
 
@@ -13,23 +15,19 @@ public class Recepcionista {
         this.nombre = nombre;
     }
 
-    public void registrarUsuario(Usuario usuario) {
-        gimnasio.addUsuario(usuario);
+    public Gimnasio getOwnedByGimnasio() {
+        return ownedByGimnasio;
     }
 
-    public void asignarMembresia(Usuario usuario, Membresia membresia) {
-        usuario.setMembresiaAsignada(membresia);
+    public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
+        this.ownedByGimnasio = ownedByGimnasio;
     }
 
-    public void reservarClase(Usuario usuario, Clase clase) {
-        Reserva reserva = new Reserva(usuario, clase, java.time.LocalDate.now());
-        usuario.addReserva(reserva);
-        clase.addUsuario(usuario);
-    }
     @Override
     public String toString() {
         return "Recepcionista{" +
                 "nombre='" + nombre + '\'' +
+                ", ownedByGimnasio=" + ownedByGimnasio +
                 '}';
     }
 }
