@@ -90,26 +90,6 @@ public class Gimnasio {
         this.listaReportes = listaReportes;
     }
 
-    /*
-    public void addUsuario(Usuario usuario) {
-        if (this.usuarios == null) {
-            this.usuarios.add(usuario);
-        }
-    }
-
-    public void addEntrenador(Entrenador entrenador) {
-        if (this.entrenadores == null) {
-            this.entrenadores.add(entrenador);
-        }
-    }
-
-    public void addClase(Clase clase) {
-        if (this.clases == null) {
-            this.clases.add(clase);
-        }
-    }
-     */
-
     @Override
     public String toString() {
         return "Gimnasio{" +
@@ -124,6 +104,20 @@ public class Gimnasio {
                 ", recepcionista=" + recepcionista +
                 '}';
     }
+
+    public boolean asignarMembresia(String idUsuario, String idMembresia) {
+        Usuario usuarioEncontrado=obtenerUsuario(idUsuario);
+        Membresia membresiaEncontrada=obtenerMembresia(idMembresia);
+        if(usuarioEncontrado!=null&&membresiaEncontrada!=null){
+            usuarioEncontrado.setMembresia(membresiaEncontrada);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
 
     public boolean crearUsuario(String nombre, String identificacion, int edad,
                                 String telefono, TipoUsuario tipoUsuario) {
@@ -287,7 +281,7 @@ public class Gimnasio {
         }
     }
 
-    public Clase obtenerClase(String clase) {
+    public Clase obtenerClase(String nombre) {
         Clase claseEncontrada = null;
         for (Clase clase : getListaClases()) {
             if (clase.getNombre().equalsIgnoreCase(nombre)) {
@@ -297,6 +291,79 @@ public class Gimnasio {
         }
 
         return claseEncontrada;
+    }
+    //CRUD MEMBRESIA
+    public boolean crearMembresia(String idMembresia, TipoMembresia tipo, Duracion duracion,
+                                  double costo) {
+        Membresia membresiaEncontrada = obtenerMembresia(idMembresia);
+        if (membresiaEncontrada == null) {
+            Membresia membresia = new Membresia();
+            membresia.setIdMembresia(idMembresia);
+            membresia.setTipo(tipo);
+            membresia.setDuracion(duracion);
+            membresia.setCosto(costo);
+            membresia.setFechaInicio(LocalDate.now());
+            LocalDate fechaVencimiento;
+            if (duracion==Duracion.MENSUAL) {
+                fechaVencimiento=LocalDate.now().plusMonths(1);
+            } else if (duracion == Duracion.TRIMESTRAL) {
+                fechaVencimiento=LocalDate.now().plusMonths(3);
+            } else if {
+                fechaVencimiento=LocalDate.now().plusYears(1);
+            }
+            membresia.setFechaVencimiento(fechaVencimiento);
+            membresia.setEstado(Estado.ACTIVA);
+
+            getListaMembresias().add(membresia);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean eliminarMembresia(String idEliminar) {
+        Membresia membresiaEncontrada = obtenerMembresia(idEliminar);
+        if (membresiaEncontrada != null) {
+            getListaMembresias().remove(membresiaEncontrada);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean actualizarMembresia(String idMembresia, TipoMembresia tipo, Duracion duracion,
+                                       double costo) {
+        Membresia membresiaEncontrada = obtenerMembresia(idMembresia);
+        if (membresiaEncontrada != null) {
+            membresiaEncontrada.setTipo(tipo);
+            membresiaEncontrada.setDuracion(duracion);
+            membresiaEncontrada.setCosto(costo);
+            membresiaEncontrada.setFechaInicio(LocalDate.now());
+            LocalDate fechaVencimiento;
+            if (duracion==Duracion.MENSUAL) {
+                fechaVencimiento=LocalDate.now().plusMonths(1);
+            } else if (duracion == Duracion.TRIMESTRAL) {
+                fechaVencimiento=LocalDate.now().plusMonths(3);
+            } else if {
+                fechaVencimiento=LocalDate.now().plusYears(1);
+            }
+            membresiaEncontrada.setFechaVencimiento(fechaVencimiento);
+            membresiaEncontrada.setEstado(Estado.ACTIVA);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Membresia obtenerMembresia(String idMembresia) {
+        Membresia membresiaEncontrada=null;
+        for (Membresia membresia : getListaMembresias()) {
+            if (membresia.getIdMembresia().equalsIgnoreCase(idMembresia)) {
+                membresiaEncontrada=membresia;
+                break;
+            }
+        }
+        return membresiaEncontrada;
     }
 
 
@@ -314,8 +381,7 @@ public class Gimnasio {
 
 
 
-
-    public boolean crearMembresia(String id, TipoMembresia tipo, Duracion duracion, double costo) {
+    public boolean crearMembresi(String id, TipoMembresia tipo, Duracion duracion, double costo) {
         Usuario usuarioEncontrado = obtenerUsuario(id);
         if (usuarioEncontrado == null) {
             System.out.println("No se encontró un usuario con esa identificación.");

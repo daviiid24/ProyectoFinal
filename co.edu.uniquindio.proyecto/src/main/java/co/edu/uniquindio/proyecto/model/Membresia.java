@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.model;
 import java.time.LocalDate;
 
 public class Membresia {
+    private String idMembresia;
     private TipoMembresia tipo;
     private Duracion duracion;
     private double costo;
@@ -11,12 +12,21 @@ public class Membresia {
     private Estado estado;
     private Gimnasio ownedByGimnasio;
 
-    public Membresia(TipoMembresia tipo,Duracion duracion, double costo) {
+    public Membresia(String idMembresia, TipoMembresia tipo,Duracion duracion, double costo) {
+        this.idMembresia=idMembresia;
         this.tipo = tipo;
         this.duracion = duracion;
         this.costo = costo;
         this.fechaInicio = LocalDate.now();
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public String getIdMembresia() {
+        return idMembresia;
+    }
+
+    public void setIdMembresia(String idMembresia) {
+        this.idMembresia = idMembresia;
     }
 
     public TipoMembresia getTipo() {
@@ -78,11 +88,14 @@ public class Membresia {
     @Override
     public String toString() {
         return "Membresia{" +
-                "tipo=" + tipo +
+                "idMembresia='" + idMembresia + '\'' +
+                ", tipo=" + tipo +
+                ", duracion=" + duracion +
                 ", costo=" + costo +
                 ", fechaInicio=" + fechaInicio +
                 ", fechaVencimiento=" + fechaVencimiento +
                 ", estado=" + estado +
+                ", ownedByGimnasio=" + ownedByGimnasio +
                 '}';
     }
 }

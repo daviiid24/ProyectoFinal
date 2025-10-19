@@ -17,6 +17,27 @@ public class Main {
 
     }
 
+    public static void asignarMembresia(Gimnasio gimnasio){
+        String idUsuario=leerStringConsola("Ingrese el id del usuario: ");
+        String idMembresia=idUsuario;
+        boolean resultado=gimnasio.asignarMembresia(idUsuario, idMembresia);
+        if(resultado) {
+            System.out.println("Membresia asignada exitosamente");
+        } else {
+            System.out.println("Membresia no asignada");
+        }
+    }
+    public static void reservarClase(Gimnasio gimnasio) {
+        String idUsuario = leerStringConsola("Ingrese el id del usuario:");
+        String nombreClase = leerStringConsola("Ingrese el nombre de la clase a asistir: ");
+        boolean resultado = gimnasio.reservarClase(idUsuario, nombreClase);
+        if (resultado) {
+            System.out.println("Reserva hecha exitosamente");
+        } else {
+            System.out.println("Reserva no hecha");
+        }
+    }
+
     //CRUD USUARIO
     private static void agregarUsuario(Gimnasio gimnasio) {
         String nombre = leerStringConsola("Ingrese el nombre del usuario: ");
@@ -116,40 +137,6 @@ public class Main {
         }
     }
 
-    public static void asignarMembresia(Gimnasio gimnasio) {
-        String id = leerStringConsola("Ingrese la identificacion del usuario a asignar: ");
-        System.out.println("Seleccione el tipo de membresía:");
-        System.out.println("1. Basica");
-        System.out.println("2. Premium");
-        System.out.println("3. VIP");
-        int opcionMembresia = leerEntero("Seleccione una opcion: ");
-        TipoMembresia tipoMembresia = switch (opcionMembresia) {
-            case 1 -> TipoMembresia.BASICA;
-            case 2 -> TipoMembresia.PREMIUM;
-            case 3 -> TipoMembresia.VIP;
-            default -> TipoMembresia.BASICA;
-        };
-
-        System.out.println("Seleccione la duracion:");
-        System.out.println("1. MENSUAL");
-        System.out.println("2. TRIMESTRAL");
-        System.out.println("3. ANUAL");
-        int opcionDuracion = leerEntero("Seleccione una opcion: ");
-        Duracion duracion = switch (opcionDuracion) {
-            case 1 -> Duracion.MENSUAL;
-            case 2 -> Duracion.TRIMESTRAL;
-            case 3 -> Duracion.ANUAL;
-            default -> Duracion.MENSUAL;
-        };
-        double costo = leerDoubleConsola("Ingrese el costo de la membresia: ");
-        boolean resultado = gimnasio.crearMembresia(id, tipoMembresia, duracion, costo);
-
-        if (resultado) {
-            System.out.println("Membresia creada y asignada con exito");
-        } else {
-            System.out.println("Membresia no creado");
-        }
-    }
     //CRUD ENTRENADOR
     private static void agregarEntrenador(Gimnasio gimnasio) {
         String nombre = leerStringConsola("Ingrese el nombre del entrenador: ");
@@ -215,12 +202,12 @@ public class Main {
                 "3. ZUMBA \n 4. CROSSFIT \n 5. PILATES");
         int opcionClase = leerEntero("Seleccione una opcion: ");
         TipoClase tipoClase = switch (opcionClase) {
-            case 1 -> TipoClase.YOGA;
-            case 2 -> TipoClase.SPINNING;
-            case 3 -> TipoClase.ZUMBA;
-            case 4 -> TipoClase.CROSSFIT;
-            case 5 -> TipoClase.PILATES;
-            default -> TipoClase.YOGA;
+            case 1 -> tipoClase = TipoClase.YOGA;
+            case 2 -> tipoClase = TipoClase.SPINNING;
+            case 3 -> tipoClase = TipoClase.ZUMBA;
+            case 4 -> tipoClase = TipoClase.CROSSFIT;
+            case 5 -> tipoClase = TipoClase.PILATES;
+            default -> tipoClase = TipoClase.YOGA;
         };
 
 
@@ -254,12 +241,12 @@ public class Main {
                 "3. ZUMBA \n 4. CROSSFIT \n 5. PILATES");
         int opcionClase = leerEntero("Seleccione una opcion: ");
         TipoClase tipoClase = switch (opcionClase) {
-            case 1 -> TipoClase.YOGA;
-            case 2 -> TipoClase.SPINNING;
-            case 3 -> TipoClase.ZUMBA;
-            case 4 -> TipoClase.CROSSFIT;
-            case 5 -> TipoClase.PILATES;
-            default -> TipoClase.YOGA;
+            case 1 -> tipoClase = TipoClase.YOGA;
+            case 2 -> tipoClase = TipoClase.SPINNING;
+            case 3 -> tipoClase = TipoClase.ZUMBA;
+            case 4 -> tipoClase = TipoClase.CROSSFIT;
+            case 5 -> tipoClase = TipoClase.PILATES;
+            default -> tipoClase = TipoClase.YOGA;
         };
 
 
@@ -284,65 +271,164 @@ public class Main {
         }
     }
     //CRUD MEMBRESIA
-    private static void crearMembresia(Gimnasio gimnasio) {
-        double costo = leerDoubleConsola("Ingrese el costo de la membresia: ");
+    private static void agregarMembresia(Gimnasio gimnasio) {
+        String idMembresia = leerStringConsola("Ingrese el ID de la membresía, recuerda que es el mismo del usuario: ");
 
-        String identificacion = leerStringConsola("Ingrese la identificacion del entrenador: ");
-        int edad = leerEntero("Ingrese la edad del entrenador: ");
-        String telefono = leerStringConsola("Ingrese la telefono del entrenador: ");
+        System.out.println("Seleccione el tipo de membresía:");
+        System.out.println("1. BASICA");
+        System.out.println("2. PREMIUM");
+        System.out.println("3. VIP");
+        int opcionTipo = leerEntero("Seleccione una opción: ");
+        TipoMembresia tipo;
+        switch (opcionTipo) {
+            case 1 -> tipo = TipoMembresia.BASICA;
+            case 2 -> tipo = TipoMembresia.PREMIUM;
+            case 3 -> tipo = TipoMembresia.VIP;
+            default -> {
+                System.out.println("Opción inválida. Se asignará basica");
+                tipo = TipoMembresia.BASICA;
+            }
+        }
 
+        System.out.println("Seleccione la duración:");
+        System.out.println("1. MENSUAL");
+        System.out.println("2. TRIMESTRAL");
+        System.out.println("3. ANUAL");
+        int opcionDuracion = leerEntero("Seleccione una opción: ");
+        Duracion duracion;
+        switch (opcionDuracion) {
+            case 1 -> duracion = Duracion.MENSUAL;
+            case 2 -> duracion = Duracion.TRIMESTRAL;
+            case 3 -> duracion = Duracion.ANUAL;
+            default -> {
+                System.out.println("Opción inválida. Se asignará mensual");
+                duracion = Duracion.MENSUAL;
+            }
+        }
 
-        boolean resultado = gimnasio.crearEntrenador(nombre,
-                identificacion,
-                edad,
-                telefono);
+        double costo = leerDoubleConsola("Ingrese el costo de la membresía: ");
+        boolean resultado = gimnasio.crearMembresia(idMembresia, tipo, duracion, costo);
 
         if (resultado) {
-            System.out.println("Entrenador creado con exito");
+            System.out.println("Membresía creada con éxito.");
         } else {
-            System.out.println("Entrenador no creado");
+            System.out.println("Membresia no creada");
         }
     }
 
     private static void eliminarMembresia(Gimnasio gimnasio) {
-        String idEliminar = leerStringConsola("Ingrese el id del entrenador a eliminar:");
-        boolean resultado = gimnasio.eliminarEntrenador(idEliminar);
+        String idEliminar = leerStringConsola("Ingrese el id de la membresía a eliminar: ");
+        boolean resultado = gimnasio.eliminarMembresia(idEliminar);
         if (resultado) {
-            System.out.println("Entrenador eliminado con exito");
+            System.out.println("Membresía eliminada con éxito");
         } else {
-            System.out.println("Entrenador no eliminado");
+            System.out.println("No se encontró la membresía");
         }
     }
 
     private static void actualizarMembresia(Gimnasio gimnasio) {
-        String nombre = leerStringConsola("Ingrese el nombre del entrenador: ");
-        String identificacion = leerStringConsola("Ingrese la identificacion del entrenador: ");
-        int edad = leerEntero("Ingrese la edad del entrenador: ");
-        String telefono = leerStringConsola("Ingrese la telefono del entrenador: ");
+        String idMembresia = leerStringConsola("Ingrese el id de la membresía a actualizar: ");
 
-        boolean resultado = gimnasio.actualizarEntrenador(nombre, identificacion,
-                edad, telefono);
+        System.out.println("Seleccione el nuevo tipo de membresía:");
+        System.out.println("1. BASICA");
+        System.out.println("2. PREMIUM");
+        System.out.println("3. VIP");
+        int opcionTipo = leerEntero("Seleccione una opción: ");
+        TipoMembresia tipo;
+        switch (opcionTipo) {
+            case 1 -> tipo = TipoMembresia.BASICA;
+            case 2 -> tipo = TipoMembresia.PREMIUM;
+            case 3 -> tipo = TipoMembresia.VIP;
+            default -> tipo = TipoMembresia.BASICA;
+        }
+
+        System.out.println("Seleccione la nueva duración:");
+        System.out.println("1. MENSUAL");
+        System.out.println("2. TRIMESTRAL");
+        System.out.println("3. ANUAL");
+        int opcionDuracion = leerEntero("Seleccione una opción: ");
+        Duracion duracion;
+        switch (opcionDuracion) {
+            case 1 -> duracion = Duracion.MENSUAL;
+            case 2 -> duracion = Duracion.TRIMESTRAL;
+            case 3 -> duracion = Duracion.ANUAL;
+            default -> duracion = Duracion.MENSUAL;
+        }
+
+        double costo = leerDoubleConsola("Ingrese el nuevo costo: ");
+        boolean resultado = gimnasio.actualizarMembresia(idMembresia, tipo, duracion, costo);
 
         if (resultado) {
-            System.out.println("Entrenador actualizado con exito");
+            System.out.println("Membresía actualizada con éxito");
         } else {
-            System.out.println("Entrenador no actualizado");
+            System.out.println("No se encontró la membresía a actualizar");
         }
     }
 
     public static void obtenerMembresia(Gimnasio gimnasio) {
-        String idBuscar = leerStringConsola("Ingrese el id del entrenador a buscar:");
-        Entrenador resultado = gimnasio.obtenerEntrenador(idBuscar);
+        String idBuscar = leerStringConsola("Ingrese el id de la membresía a buscar: ");
+        Membresia resultado = gimnasio.obtenerMembresia(idBuscar);
         if (resultado != null) {
-            System.out.println("Entrenador encontrado con exito");
+            System.out.println("Membresía encontrada");
         } else {
-            System.out.println("Entrenador no encontrado");
+            System.out.println("No se encontró la membresía");
+        }
+    }
+    //CRUD RESERVA
+    public static void crearReserva(Gimnasio gimnasio) {
+        String idReserva=leerStringConsola("Ingrese el id de su reserva:");
+        String idUsuario=leerStringConsola("Ingrese el id del usuario para reservar:");
+        String nombreClase=leerStringConsola("Ingrese el nombre de la clase a asistir:");
+        boolean resultado=gimnasio.crearReserva(idReserva, idUsuario, nombreClase);
+        if(resultado){
+        System.out.println("Reserva hecha con exito");
+        } else {
+        System.out.println("No se ha hecho la reserva");
+        }
+    }
+
+    private static void eliminarReserva(Gimnasio gimnasio) {
+        String idEliminar = leerStringConsola("Ingrese el id de la reserva a eliminar: ");
+        boolean resultado = gimnasio.eliminarReserva(idEliminar);
+        if (resultado) {
+            System.out.println("Reserva eliminada con éxito");
+        } else {
+            System.out.println("No se encontró la reserva");
+        }
+    }
+    public static void actualizarReserva(Gimnasio gimnasio) {
+        String idReserva = leerStringConsola("Ingrese el id de la reserva a actualizar:");
+        String idUsuario = leerStringConsola("Ingrese el nuevo id del usuario para reservar:");
+        String nombreClase = leerStringConsola("Ingrese el nuevo nombre de la clase a asistir:");
+        boolean resultado = gimnasio.actualizarReserva(idReserva, idUsuario, nombreClase);
+        if (resultado) {
+            System.out.println("Reserva actualizada con exito");
+        } else {
+            System.out.println("No se ha encotrado la reserva");
+        }
+    }
+    public static void obtenerReserva(Gimnasio gimnasio) {
+        String idBuscar=leerStringConsola("Ingrese el id de la reserva a buscar: ");
+        Reserva resultado=gimnasio.obtenerReserva(idBuscar);
+        if (resultado != null) {
+            System.out.println("Reserva encontrada");
+        } else {
+            System.out.println("No se ha encontrado la reserva");
         }
     }
 
 
 
-    private static Gimnasio inicializarDatos() {
+
+
+
+
+
+
+
+
+
+private static Gimnasio inicializarDatos() {
         Gimnasio gimnasio = new Gimnasio();
         return gimnasio;
     }
