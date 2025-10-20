@@ -115,9 +115,23 @@ public class Gimnasio {
             return false;
         }
     }
-
-
-
+    public boolean validarUsuario(String idUsuario) {
+        Usuario usuarioEncontrado=obtenerUsuario(idUsuario);
+        if(usuarioEncontrado==null){
+            return false;
+        }
+        Membresia membresia= usuarioEncontrado.getMembresia();
+        if (membresia == null) {
+            System.out.println("El usuario no tiene una membresía asignada.");
+            return false;
+        }
+        if (membresia.getFechaVencimiento().isBefore(LocalDate.now()) ||
+                membresia.getEstado() == Estado.INACTIVA) {
+            System.out.println("La membresía del usuario está vencida o inactiva.");
+            return false;
+        }
+            return true;
+        }
 
     public boolean crearUsuario(String nombre, String identificacion, int edad,
                                 String telefono, TipoUsuario tipoUsuario) {
@@ -234,13 +248,13 @@ public class Gimnasio {
     public boolean agregarClase(String nombre,
                                  int cupoMaximo,
                                 String identificacion,
-                                TipoClase tipoClase) {
+                                TipoClase tipoClase, int hora, int minuto) {
         Clase claseEncontrada = obtenerClase(nombre);
         if (claseEncontrada == null) {
             Clase clase = new Clase();
             clase.setNombre(nombre);
             clase.setCupoMaximo(cupoMaximo);
-            clase.setHorario(LocalTime.of(int hour));
+            clase.setHorario(LocalTime.of(hora, minuto));
             clase.setTipoClase(tipoClase);
             Entrenador entrenadorEncontrado=obtenerEntrenador(identificacion);
             clase.setEntrenador(entrenadorEncontrado);
@@ -265,12 +279,12 @@ public class Gimnasio {
     public boolean actualizarClase(String nombre,
                                    int cupoMaximo,
                                    String identificacion,
-                                   TipoClase tipoClase) {
+                                   TipoClase tipoClase, int hora, int minuto) {
         Clase claseEncontrada = obtenerClase(nombre);
         if (claseEncontrada.getNombre().equalsIgnoreCase(nombre)) {
             claseEncontrada.setNombre(nombre);
             claseEncontrada.setCupoMaximo(cupoMaximo);
-            claseEncontrada.setHorario(LocalTime.of(int hour));
+            claseEncontrada.setHorario(LocalTime.of(hora, minuto));
             claseEncontrada.setTipoClase(tipoClase);
             Entrenador entrenadorEncontrado=obtenerEntrenador(identificacion);
             claseEncontrada.setEntrenador(entrenadorEncontrado);
@@ -308,8 +322,10 @@ public class Gimnasio {
                 fechaVencimiento=LocalDate.now().plusMonths(1);
             } else if (duracion == Duracion.TRIMESTRAL) {
                 fechaVencimiento=LocalDate.now().plusMonths(3);
-            } else if {
+            } else if (duracion == Duracion.ANUAL) {
                 fechaVencimiento=LocalDate.now().plusYears(1);
+            } else {
+                fechaVencimiento=LocalDate.now().plusMonths(1);
             }
             membresia.setFechaVencimiento(fechaVencimiento);
             membresia.setEstado(Estado.ACTIVA);
@@ -343,8 +359,10 @@ public class Gimnasio {
                 fechaVencimiento=LocalDate.now().plusMonths(1);
             } else if (duracion == Duracion.TRIMESTRAL) {
                 fechaVencimiento=LocalDate.now().plusMonths(3);
-            } else if {
+            } else if (duracion == Duracion.ANUAL) {
                 fechaVencimiento=LocalDate.now().plusYears(1);
+            } else {
+                fechaVencimiento=LocalDate.now().plusMonths(1);
             }
             membresiaEncontrada.setFechaVencimiento(fechaVencimiento);
             membresiaEncontrada.setEstado(Estado.ACTIVA);
@@ -365,56 +383,103 @@ public class Gimnasio {
         }
         return membresiaEncontrada;
     }
+    //CRUD RESERVA
+    public boolean reservarClase(String idReserva, String idUsuario, String nombreClase) {
+        Reserva reservaEncontrada=obtenerReserva(idReserva);
+        if (reservaEncontrada == null) {
+        Usuario usuario = obtenerUsuario(idUsuario);
+        Clase clase = obtenerClase(nombreClase);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public boolean crearMembresi(String id, TipoMembresia tipo, Duracion duracion, double costo) {
-        Usuario usuarioEncontrado = obtenerUsuario(id);
-        if (usuarioEncontrado == null) {
-            System.out.println("No se encontró un usuario con esa identificación.");
+        if (usuario == null || clase == null) {
             return false;
         }
-
-        Membresia membresia;
-        switch (tipo) {
-            case BASICA -> membresia = new MembresiaBasica();
-            case PREMIUM -> membresia = new MembresiaPremium();
-            case VIP -> membresia = new MembresiaVip();
-            default -> membresia = new MembresiaBasica();
+        if (clase.getListaUsuariosRegistrados().size() >= clase.getCupoMaximo()) {
+            System.out.println("No hay cupos para esta clase.");
+            return false;
         }
-        membresia.setTipo(tipo);
-        membresia.setCosto(costo);
-        membresia.setEstado(Estado.ACTIVA);
-        membresia.setFechaInicio(LocalDate.now());
-        LocalDate fechaVencimiento;
-        switch (duracion) {
-            case MENSUAL -> fechaVencimiento = LocalDate.now().plusMonths(1);
-            case TRIMESTRAL -> fechaVencimiento = LocalDate.now().plusMonths(3);
-            case ANUAL -> fechaVencimiento = LocalDate.now().plusYears(1);
-            default -> fechaVencimiento = LocalDate.now().plusMonths(1);
-        }
-        membresia.setFechaVencimiento(fechaVencimiento);
-        usuarioEncontrado.setMembresia(membresia);
+            Reserva reserva=new Reserva();
+            reserva.setIdReserva(idReserva);
+            reserva.setUsuario(usuario);
+            reserva.setClase(clase);
+            reserva.setFechaReserva(LocalDate.now());
+            reserva.setEstado(Estado.ACTIVA);
+            getListaReservas().add(reserva);
 
-        return true;
+            clase.getListaUsuariosRegistrados().add(usuario);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean eliminarReserva(String idReserva) {
+        Reserva reservaEncontrada = obtenerReserva(idReserva);
+        if (reservaEncontrada != null) {
+        Clase clase = reservaEncontrada.getClase();
+        Usuario usuario = reservaEncontrada.getUsuario();
+        if (clase != null && usuario != null) {
+            clase.getListaUsuariosRegistrados().remove(usuario);
+        }
+            getListaReservas().remove(reservaEncontrada);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean actualizarReserva(String idReserva, String idUsuario, String nombreClase) {
+        Reserva reservaEncontrada=obtenerReserva(idReserva);
+        if (reservaEncontrada != null) {
+            Clase claseAnterior = reservaEncontrada.getClase();
+            Usuario usuarioAnterior = reservaEncontrada.getUsuario();
+            if (claseAnterior != null && usuarioAnterior != null) {
+                claseAnterior.getListaUsuariosRegistrados().remove(usuarioAnterior);
+            }
+            Usuario nuevoUsuario = obtenerUsuario(idUsuario);
+            Clase nuevaClase = obtenerClase(nombreClase);
+            if (nuevoUsuario == null || nuevaClase == null) {
+                return false;
+            }
+            reservaEncontrada.setIdReserva(idReserva);
+            reservaEncontrada.setUsuario(nuevoUsuario);
+            reservaEncontrada.setClase(nuevaClase);
+            reservaEncontrada.setFechaReserva(LocalDate.now());
+            reservaEncontrada.setEstado(Estado.ACTIVA);
+
+            nuevaClase.getListaUsuariosRegistrados().add(nuevoUsuario);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Reserva obtenerReserva(String idReserva) {
+        Reserva reservaEncontrada=null;
+        for (Reserva reserva : getListaReservas()) {
+            if (reserva.getIdReserva().equalsIgnoreCase(idReserva)) {
+                reservaEncontrada=reserva;
+                break;
+            }
+        }
+        return reservaEncontrada;
+    }
+
+
+
+
+
 
     }
 
 
 
-}
+
+
+
+
+
+
+
+
+
 
 

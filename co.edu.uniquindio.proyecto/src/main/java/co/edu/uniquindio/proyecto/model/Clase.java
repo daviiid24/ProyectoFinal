@@ -9,7 +9,7 @@ public class Clase {
         private LocalTime horario;
         private int cupoMaximo;
         private Entrenador entrenador;
-        private ArrayList<Usuario> usuariosRegistrados=new ArrayList();
+        private ArrayList<Usuario> ListaUsuariosRegistrados =new ArrayList();
     private Gimnasio ownedByGimnasio;
 
         public Clase() {
@@ -55,12 +55,12 @@ public class Clase {
         this.entrenador = entrenador;
     }
 
-    public ArrayList<Usuario> getUsuariosRegistrados() {
-        return usuariosRegistrados;
+    public ArrayList<Usuario> getListaUsuariosRegistrados() {
+        return ListaUsuariosRegistrados;
     }
 
-    public void setUsuariosRegistrados(ArrayList<Usuario> usuariosRegistrados) {
-        this.usuariosRegistrados = usuariosRegistrados;
+    public void setListaUsuariosRegistrados(ArrayList<Usuario> listaUsuariosRegistrados) {
+        this.ListaUsuariosRegistrados = listaUsuariosRegistrados;
     }
 
     public Gimnasio getOwnedByGimnasio() {
@@ -69,11 +69,5 @@ public class Clase {
 
     public void setOwnedByGimnasio(Gimnasio ownedByGimnasio) {
         this.ownedByGimnasio = ownedByGimnasio;
-    }
-
-    public void addUsuario(Usuario usuario) {
-        if (this.usuariosRegistrados == null) {
-            this.usuariosRegistrados.add(usuario);
-        }
     }
 }

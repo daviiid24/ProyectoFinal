@@ -7,15 +7,173 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Gimnasio gimnasio = inicializarDatos();
-        agregarUsuario(gimnasio);
-        eliminarUsuario(gimnasio);
-        actualizarUsuario(gimnasio);
-        obtenerUsuario(gimnasio);
 
-        asignarMembresia(gimnasio);
+    Gimnasio gimnasio = inicializarDatos();
+    int opcionPrincipal;
 
-    }
+        do {
+        opcionPrincipal = mostrarMenuPrincipal();
+
+        switch (opcionPrincipal) {
+            case 1 -> menuUsuarios(gimnasio);
+            case 2 -> menuEntrenadores(gimnasio);
+            case 3 -> menuClases(gimnasio);
+            case 4 -> menuMembresias(gimnasio);
+            case 5 -> menuReservas(gimnasio);
+            case 6 -> menuMetodos(gimnasio);
+            case 7 -> System.out.println("Saliendo del sistema...");
+            default -> System.out.println("Opción no válida, intente de nuevo.");
+        }
+    } while (opcionPrincipal != 7);
+}
+
+private static int mostrarMenuPrincipal() {
+    System.out.println("\n===== MENÚ PRINCIPAL GIMNASIO =====");
+    System.out.println("1 - Usuarios");
+    System.out.println("2 - Entrenadores");
+    System.out.println("3 - Clases");
+    System.out.println("4 - Membresías");
+    System.out.println("5 - Reservas");
+    System.out.println("6 - Métodos Especiales");
+    System.out.println("7 - Salir");
+    return leerEntero("Seleccione una opción: ");
+}
+
+// === MENÚ USUARIOS ===
+private static void menuUsuarios(Gimnasio gimnasio) {
+    int opcion;
+    do {
+        System.out.println("\n--- CRUD USUARIOS ---");
+        System.out.println("1 - Crear");
+        System.out.println("2 - Eliminar");
+        System.out.println("3 - Actualizar");
+        System.out.println("4 - Obtener");
+        System.out.println("5 - Salir");
+        opcion = leerEntero("Seleccione una opción: ");
+
+        switch (opcion) {
+            case 1 -> agregarUsuario(gimnasio);
+            case 2 -> eliminarUsuario(gimnasio);
+            case 3 -> actualizarUsuario(gimnasio);
+            case 4 -> obtenerUsuario(gimnasio);
+            case 5 -> System.out.println("Saliendo del menú usuarios...");
+            default -> System.out.println("Opción inválida.");
+        }
+    } while (opcion != 5);
+}
+
+// === MENÚ ENTRENADORES ===
+private static void menuEntrenadores(Gimnasio gimnasio) {
+    int opcion;
+    do {
+        System.out.println("\n--- CRUD ENTRENADORES ---");
+        System.out.println("1 - Crear");
+        System.out.println("2 - Eliminar");
+        System.out.println("3 - Actualizar");
+        System.out.println("4 - Obtener");
+        System.out.println("5 - Salir");
+        opcion = leerEntero("Seleccione una opción: ");
+
+        switch (opcion) {
+            case 1 -> agregarEntrenador(gimnasio);
+            case 2 -> eliminarEntrenador(gimnasio);
+            case 3 -> actualizarEntrenador(gimnasio);
+            case 4 -> obtenerEntrenador(gimnasio);
+            case 5 -> System.out.println("Saliendo del menú entrenadores...");
+            default -> System.out.println("Opción inválida.");
+        }
+    } while (opcion != 5);
+}
+
+// === MENÚ CLASES ===
+private static void menuClases(Gimnasio gimnasio) {
+    int opcion;
+    do {
+        System.out.println("\n--- CRUD CLASES ---");
+        System.out.println("1 - Crear");
+        System.out.println("2 - Eliminar");
+        System.out.println("3 - Actualizar");
+        System.out.println("4 - Obtener");
+        System.out.println("5 - Salir");
+        opcion = leerEntero("Seleccione una opción: ");
+
+        switch (opcion) {
+            case 1 -> agregarClase(gimnasio);
+            case 2 -> eliminarClase(gimnasio);
+            case 3 -> actualizarClase(gimnasio);
+            case 4 -> obtenerClase(gimnasio);
+            case 5 -> System.out.println("Saliendo del menú clases...");
+            default -> System.out.println("Opción inválida.");
+        }
+    } while (opcion != 5);
+}
+
+// === MENÚ MEMBRESÍAS ===
+private static void menuMembresias(Gimnasio gimnasio) {
+    int opcion;
+    do {
+        System.out.println("\n--- CRUD MEMBRESÍAS ---");
+        System.out.println("1 - Crear");
+        System.out.println("2 - Eliminar");
+        System.out.println("3 - Actualizar");
+        System.out.println("4 - Obtener");
+        System.out.println("5 - Asignar a usuario");
+        System.out.println("6 - Salir");
+        opcion = leerEntero("Seleccione una opción: ");
+
+        switch (opcion) {
+            case 1 -> agregarMembresia(gimnasio);
+            case 2 -> eliminarMembresia(gimnasio);
+            case 3 -> actualizarMembresia(gimnasio);
+            case 4 -> obtenerMembresia(gimnasio);
+            case 5 -> asignarMembresia(gimnasio);
+            case 6 -> System.out.println("Saliendo del menú membresías...");
+            default -> System.out.println("Opción inválida.");
+        }
+    } while (opcion != 6);
+}
+
+// === MENÚ RESERVAS ===
+private static void menuReservas(Gimnasio gimnasio) {
+    int opcion;
+    do {
+        System.out.println("\n--- CRUD RESERVAS ---");
+        System.out.println("1 - Crear");
+        System.out.println("2 - Eliminar");
+        System.out.println("3 - Actualizar");
+        System.out.println("4 - Obtener");
+        System.out.println("5 - Salir");
+        opcion = leerEntero("Seleccione una opción: ");
+
+        switch (opcion) {
+            case 1 -> crearReserva(gimnasio);
+            case 2 -> eliminarReserva(gimnasio);
+            case 3 -> actualizarReserva(gimnasio);
+            case 4 -> obtenerReserva(gimnasio);
+            case 5 -> System.out.println("Saliendo del menú reservas...");
+            default -> System.out.println("Opción inválida.");
+        }
+    } while (opcion != 5);
+}
+
+// === MENÚ MÉTODOS ESPECIALES ===
+private static void menuMetodos(Gimnasio gimnasio) {
+    int opcion;
+    do {
+        System.out.println("\n--- MÉTODOS ESPECIALES ---");
+        System.out.println("1 - Validar ingreso de usuario");
+        System.out.println("2 - Reservar clase");
+        System.out.println("3 - Salir");
+        opcion = leerEntero("Seleccione una opción: ");
+
+        switch (opcion) {
+            case 1 -> validarIngresoUsuario(gimnasio);
+            case 2 -> reservarClase(gimnasio);
+            case 3 -> System.out.println("Saliendo del menú métodos...");
+            default -> System.out.println("Opción inválida.");
+        }
+    } while (opcion != 3);
+}
 
     public static void asignarMembresia(Gimnasio gimnasio){
         String idUsuario=leerStringConsola("Ingrese el id del usuario: ");
@@ -28,13 +186,23 @@ public class Main {
         }
     }
     public static void reservarClase(Gimnasio gimnasio) {
+        String idReserva = leerStringConsola("Ingrese el id de la reserva: ");
         String idUsuario = leerStringConsola("Ingrese el id del usuario:");
         String nombreClase = leerStringConsola("Ingrese el nombre de la clase a asistir: ");
-        boolean resultado = gimnasio.reservarClase(idUsuario, nombreClase);
+        boolean resultado = gimnasio.reservarClase(idReserva, idUsuario, nombreClase);
         if (resultado) {
             System.out.println("Reserva hecha exitosamente");
         } else {
             System.out.println("Reserva no hecha");
+        }
+    }
+    public static void validarIngresoUsuario(Gimnasio gimnasio){
+        String idUsuario=leerStringConsola("Ingrese el id del usuario: ");
+        boolean resultado=gimnasio.validarUsuario(idUsuario);
+        if (resultado) {
+            System.out.println("Usuario valido. Bienvenido a " + gimnasio.getNombre());
+        } else {
+            System.out.println("Usuario no registrado. Por favor registrese para acceder a los servicios:");
         }
     }
 
@@ -209,11 +377,12 @@ public class Main {
             case 5 -> tipoClase = TipoClase.PILATES;
             default -> tipoClase = TipoClase.YOGA;
         };
-
+        int hora = leerEntero("Ingrese la hora de la clase");
+        int minuto = leerEntero("Ingrese los minutos de la clase ");
 
         boolean resultado = gimnasio.agregarClase(nombre,
                 cupoMaximo, identificacion,
-                tipoClase);
+                tipoClase, hora , minuto);
 
         if (resultado) {
             System.out.println("Clase creado con exito");
@@ -249,10 +418,13 @@ public class Main {
             default -> tipoClase = TipoClase.YOGA;
         };
 
+        int hora = leerEntero("Ingrese la hora de la clase");
+        int minuto = leerEntero("Ingrese los minutos de la clase ");
+
 
         boolean resultado = gimnasio.actualizarClase(nombre,
                 cupoMaximo, identificacion,
-                tipoClase);
+                tipoClase, hora, minuto);
 
         if (resultado) {
             System.out.println("Clase actualizado con exito");
@@ -379,7 +551,7 @@ public class Main {
         String idReserva=leerStringConsola("Ingrese el id de su reserva:");
         String idUsuario=leerStringConsola("Ingrese el id del usuario para reservar:");
         String nombreClase=leerStringConsola("Ingrese el nombre de la clase a asistir:");
-        boolean resultado=gimnasio.crearReserva(idReserva, idUsuario, nombreClase);
+        boolean resultado=gimnasio.reservarClase(idReserva, idUsuario, nombreClase);
         if(resultado){
         System.out.println("Reserva hecha con exito");
         } else {

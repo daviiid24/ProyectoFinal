@@ -12,7 +12,10 @@ public class Membresia {
     private Estado estado;
     private Gimnasio ownedByGimnasio;
 
-    public Membresia(String idMembresia, TipoMembresia tipo,Duracion duracion, double costo) {
+    public Membresia() {
+    }
+
+    public Membresia(String idMembresia, TipoMembresia tipo, Duracion duracion, double costo) {
         this.idMembresia=idMembresia;
         this.tipo = tipo;
         this.duracion = duracion;
