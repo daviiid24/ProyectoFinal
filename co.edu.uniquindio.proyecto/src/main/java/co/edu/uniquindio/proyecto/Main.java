@@ -9,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
     Gimnasio gimnasio = inicializarDatos();
+    /*
     int opcionPrincipal;
 
         do {
@@ -174,6 +175,49 @@ private static void menuMetodos(Gimnasio gimnasio) {
         }
     } while (opcion != 3);
 }
+*/}
+    public static void validarIngresoUsuarioAvanzado(Gimnasio gimnasio){
+        String nombre=leerStringConsola("Ingrese su nomnbre: ");
+        String identificacion=leerStringConsola("Ingrese su identificacion: ");
+        String telefono=leerStringConsola("Ingrese su telefono: ");
+        boolean resultado=gimnasio.validarUsuarioAvanzado(nombre, identificacion, telefono);
+        if(resultado) {
+            System.out.println("Bienvenido" + nombre);
+        } else {
+            System.out.println("Acceso denegado. Verifique los datos o el estado de su membresía");
+        }
+    }
+
+    public static void generarReporte(Gimnasio gimnasio){
+        int opcion;
+        do {
+            opcion = leerEntero("Ingrese el tipo de reporte que desea generar: /n" +
+                    "1. Usuarios activos/n" +
+                    "2. Clases mas reservadas/n" +
+                    "3. Vencimiento membresias");
+            switch (opcion) {
+                case 1 -> gimnasio.generarReporte(opcion);
+                case 2 -> gimnasio.generarReporte(opcion);
+                case 3 -> gimnasio.generarReporte(opcion);
+                default -> System.out.println("Opcion invalida");
+            }
+        } while (opcion!=3);
+    }
+    public static void generarReporteAvanzado(Gimnasio gimnasio){
+        int opcion;
+        do {
+            opcion = leerEntero("Ingrese el tipo de reporte avanzado que desea generar: /n" +
+                    "1. Estadísticas de asistencia/n" +
+                    "2. Ingresos por membresías/n" +
+                    "3. Clases más populares");
+            switch (opcion) {
+                case 1 -> gimnasio.generarReporteAvanzado(opcion);
+                case 2 -> gimnasio.generarReporteAvanzado(opcion);
+                case 3 -> gimnasio.generarReporteAvanzado(opcion);
+                default -> System.out.println("Opcion invalida");
+            }
+        } while (opcion!=3);
+    }
 
     public static void asignarMembresia(Gimnasio gimnasio){
         String idUsuario=leerStringConsola("Ingrese el id del usuario: ");

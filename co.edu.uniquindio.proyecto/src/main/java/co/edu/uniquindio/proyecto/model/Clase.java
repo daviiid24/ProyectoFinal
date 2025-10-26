@@ -9,7 +9,7 @@ public class Clase {
         private LocalTime horario;
         private int cupoMaximo;
         private Entrenador entrenador;
-        private ArrayList<Usuario> ListaUsuariosRegistrados =new ArrayList();
+        private ArrayList<Usuario> listaUsuariosRegistrados =new ArrayList();
     private Gimnasio ownedByGimnasio;
 
         public Clase() {
@@ -55,12 +55,17 @@ public class Clase {
         this.entrenador = entrenador;
     }
 
+    public int getNumeroReservas() {
+        return listaUsuariosRegistrados.size();
+    }
+
+
     public ArrayList<Usuario> getListaUsuariosRegistrados() {
-        return ListaUsuariosRegistrados;
+        return listaUsuariosRegistrados;
     }
 
     public void setListaUsuariosRegistrados(ArrayList<Usuario> listaUsuariosRegistrados) {
-        this.ListaUsuariosRegistrados = listaUsuariosRegistrados;
+        this.listaUsuariosRegistrados = listaUsuariosRegistrados;
     }
 
     public Gimnasio getOwnedByGimnasio() {

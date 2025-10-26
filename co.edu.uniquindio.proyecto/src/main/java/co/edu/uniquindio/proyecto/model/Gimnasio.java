@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Gimnasio {
@@ -105,22 +106,24 @@ public class Gimnasio {
                 '}';
     }
 
+
     public boolean asignarMembresia(String idUsuario, String idMembresia) {
-        Usuario usuarioEncontrado=obtenerUsuario(idUsuario);
-        Membresia membresiaEncontrada=obtenerMembresia(idMembresia);
-        if(usuarioEncontrado!=null&&membresiaEncontrada!=null){
+        Usuario usuarioEncontrado = obtenerUsuario(idUsuario);
+        Membresia membresiaEncontrada = obtenerMembresia(idMembresia);
+        if (usuarioEncontrado != null && membresiaEncontrada != null) {
             usuarioEncontrado.setMembresia(membresiaEncontrada);
             return true;
         } else {
             return false;
         }
     }
+
     public boolean validarUsuario(String idUsuario) {
-        Usuario usuarioEncontrado=obtenerUsuario(idUsuario);
-        if(usuarioEncontrado==null){
+        Usuario usuarioEncontrado = obtenerUsuario(idUsuario);
+        if (usuarioEncontrado == null) {
             return false;
         }
-        Membresia membresia= usuarioEncontrado.getMembresia();
+        Membresia membresia = usuarioEncontrado.getMembresia();
         if (membresia == null) {
             System.out.println("El usuario no tiene una membresía asignada.");
             return false;
@@ -130,8 +133,177 @@ public class Gimnasio {
             System.out.println("La membresía del usuario está vencida o inactiva.");
             return false;
         }
+        usuarioEncontrado.registrarAsistencia(
+                new Asistencia(LocalDate.now(), "Ingreso al gimnasio validado")
+        );
+        return true;
+    }
+
+    public void generarReporte(int opcion) {
+        switch (opcion) {
+            case 1 -> generarReporteUsuariosActivos();
+            case 2 -> generarReporteClasesMasReservadas();
+            case 3 -> generarReporteVencimientoMembresias();
+            default -> System.out.println("Opción inválida");
+        }
+    }
+
+    private void generarReporteUsuariosActivos() {
+        System.out.println("Usuarios activos");
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getMembresia() != null && usuario.getMembresia().getFechaVencimiento().isAfter(LocalDate.now())) {
+                System.out.println(usuario.getNombre() + "/n" + usuario.getIdentificacion());
+            }
+        }
+    }
+
+    private void generarReporteClasesMasReservadas() {
+        System.out.println("Clases mas reservadas");
+        for (int i = 0; i < listaClases.size() - 1; i++) {
+            for (int j = i + 1; j < listaClases.size(); j++) {
+                if (listaClases.get(i).getNumeroReservas() < listaClases.get(j).getNumeroReservas()) {
+                    Clase temp = listaClases.get(i);
+                    listaClases.set(i, listaClases.get(j));
+                    listaClases.set(j, temp);
+                }
+            }
+        }
+        for (Clase clase : listaClases) {
+            System.out.println(clase.getNombre() + "Reservas: " + clase.getNumeroReservas());
+        }
+    }
+
+    private void generarReporteVencimientoMembresias() {
+        System.out.println("Vencimiento membresias");
+        LocalDate hoy = LocalDate.now();
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getMembresia() != null) {
+                LocalDate vencimiento = usuario.getMembresia().getFechaVencimiento();
+                long diasRestantes = ChronoUnit.DAYS.between(hoy, vencimiento);
+                if (diasRestantes <= 10 && diasRestantes >= 0) {
+                    System.out.println(usuario.getNombre() + "vence en" + diasRestantes + "dias");
+                }
+            }
+        }
+    }
+    public void generarReporteAvanzado(int opcion) {
+        switch (opcion) {
+            case 1 -> generarReporteAsistenciasUsuario();
+            case 2 -> generarReporteIngresosPorMembresia();
+            case 3 -> generarReporteClasesPopulares();
+            default -> System.out.println("Opción inválida");
+        }
+    }
+
+    private void generarReporteAsistenciasUsuario() {
+        System.out.println("Reporte de asistencias por usuario:");
+
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados en el gimnasio.");
+            return;
+        }
+        for (Usuario usuario : listaUsuarios) {
+            System.out.println("\nUsuario: " + usuario.getNombre() +
+                    " | ID: " + usuario.getIdentificacion());
+
+            if (usuario.getAsistencias().isEmpty()) {
+                System.out.println("  ➤ No tiene asistencias registradas.");
+            } else {
+                System.out.println("  ➤ Total asistencias: " + usuario.getAsistencias().size());
+                System.out.println("  ➤ Fechas de asistencia:");
+                for (Asistencia asistencia : usuario.getAsistencias()) {
+                    System.out.println("     - " + asistencia.getFecha());
+                }
+            }
+        }
+    }
+
+    private void generarReporteIngresosPorMembresia() {
+        double totalMensual=0;
+        double totalTrimestral=0;
+        double totalAnual=0;
+        for (Usuario usuario : listaUsuarios) {
+            Membresia membresia = usuario.getMembresia();
+            if(membresia!=null){
+                switch (membresia.getDuracion()) {
+                    case MENSUAL:
+                        totalMensual += membresia.getCosto();
+                        break;
+                    case TRIMESTRAL:
+                        totalTrimestral += membresia.getCosto();
+                        break;
+                    case ANUAL:
+                        totalAnual += membresia.getCosto();
+                        break;
+                }
+            }
+        }
+        double total=totalMensual+totalTrimestral+totalAnual;
+
+        System.out.println("Reporte de ingresos por membresía:");
+        System.out.println("Total ingresos mensuales: $" + totalMensual);
+        System.out.println("Total ingresos trimestrales: $" + totalTrimestral);
+        System.out.println("Total ingresos anuales: $" + totalAnual);
+        System.out.println("Total ingresos por todas las membresias: $" + total);
+    }
+
+    private void generarReporteClasesPopulares() {
+        System.out.println("Reporte de clases mas populares");
+
+        if (listaClases == null || listaClases.isEmpty()) {
+            System.out.println("No hay clases registradas en el sistema.");
+            return;
+        }
+        ArrayList<Clase> clasesOrdenadas = new ArrayList<>(listaClases);
+
+        for (int i = 0; i < clasesOrdenadas.size() - 1; i++) {
+            for (int j = i + 1; j < clasesOrdenadas.size(); j++) {
+                if (clasesOrdenadas.get(i).getNumeroReservas() < clasesOrdenadas.get(j).getNumeroReservas()) {
+                    Clase temp = clasesOrdenadas.get(i);
+                    clasesOrdenadas.set(i, clasesOrdenadas.get(j));
+                    clasesOrdenadas.set(j, temp);
+                }
+            }
+        }
+        for(Clase clase : listaClases) {
+            System.out.println("Clase: " + clase.getNombre()
+                    + " | Tipo: " + clase.getTipoClase()
+                    + " | Entrenador: " + (clase.getEntrenador() != null ? clase.getEntrenador().getNombre() : "Sin asignar")
+                    + " | Horario: " + clase.getHorario()
+                    + " | Cupo Máximo: " + clase.getCupoMaximo()
+                    + " | Usuarios Inscritos: " + clase.getNumeroReservas());
+        }
+
+
+    }
+
+    public boolean validarUsuarioAvanzado(String nombre, String identificacion, String telefono) {
+        Usuario usuarioEncontrado = obtenerUsuario(identificacion);
+        if (usuarioEncontrado == null) {
+            System.out.println("Usuario no encontrado");
+            return false;
+        }
+        Membresia membresia = usuarioEncontrado.getMembresia();
+        if (membresia == null) {
+            System.out.println("El usuario no tiene una membresía asignada");
+            return false;
+        }
+        if (membresia.getFechaVencimiento().isBefore(LocalDate.now()) ||
+                membresia.getEstado() == Estado.INACTIVA) {
+            System.out.println("La membresía del usuario está vencida o inactiva");
+            return false;
+        }
+        if (usuarioEncontrado.getNombre().equals(nombre) && usuarioEncontrado.getIdentificacion().equals(identificacion)
+                && usuarioEncontrado.getTelefono().equals(telefono)) {
+            usuarioEncontrado.registrarAsistencia(
+                    new Asistencia(LocalDate.now(), "Ingreso al gimnasio validado")
+            );
             return true;
         }
+        System.out.println("Los datos ingresados no coinciden");
+        return false;
+    }
+
 
     public boolean crearUsuario(String nombre, String identificacion, int edad,
                                 String telefono, TipoUsuario tipoUsuario) {
@@ -259,6 +431,9 @@ public class Gimnasio {
             Entrenador entrenadorEncontrado=obtenerEntrenador(identificacion);
             clase.setEntrenador(entrenadorEncontrado);
             getListaClases().add(clase);
+            if (entrenadorEncontrado != null && !entrenadorEncontrado.getClaseAsignadas().contains(clase)) {
+                entrenadorEncontrado.getClaseAsignadas().add(clase);
+            }
 
             return true;
         } else {
@@ -465,10 +640,7 @@ public class Gimnasio {
 
 
 
-
-
-
-    }
+}
 
 
 
