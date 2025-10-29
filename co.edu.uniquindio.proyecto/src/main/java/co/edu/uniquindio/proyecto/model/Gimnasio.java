@@ -207,10 +207,10 @@ public class Gimnasio {
                     " | ID: " + usuario.getIdentificacion());
 
             if (usuario.getAsistencias().isEmpty()) {
-                System.out.println("  ➤ No tiene asistencias registradas.");
+                System.out.println("No tiene asistencias registradas.");
             } else {
-                System.out.println("  ➤ Total asistencias: " + usuario.getAsistencias().size());
-                System.out.println("  ➤ Fechas de asistencia:");
+                System.out.println("Total asistencias: " + usuario.getAsistencias().size());
+                System.out.println("Fechas de asistencia:");
                 for (Asistencia asistencia : usuario.getAsistencias()) {
                     System.out.println("     - " + asistencia.getFecha());
                 }
